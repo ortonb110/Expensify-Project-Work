@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
 
 @layer base {
     :root {
@@ -105,20 +106,36 @@ h1 {
     font-size: 1.25rem;
   }
 
+  .family {
+    font-family: 'Roboto Condensed', sans-serif;
+  }
 }
 
 @layer components {
   .btn {
-    padding: 0.3rem 2.2rem;
-    background-color: #289daa;
+    
     text-transform: capitalize;
-    color: white;
     transition: all ease-in-out 0.2s;
-    border-radius: 0.6rem;
+    
     font-size: 2rem;
   }
+  .btn-default {
+    background-color: #289daa;
+    color: white;
+    padding: 0.3rem 2.2rem;
+    border-radius: 0.6rem;
+  }
+  .btn-error {
+    color: #289daa;
+    text-decoration: underline;
+  }
 
-  .btn:hover {
+  .btn-error:hover {
+    
+    color: #14565e;
+  }
+
+  .btn-default:hover {
     background-color: #14565e;
     
   }

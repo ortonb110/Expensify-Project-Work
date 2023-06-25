@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         primaryColor: "#33b1bc",
         primaryBodyColor: "#486581",
+        primaryBodyColorLight: "#627d98",
       }
     },
   },
