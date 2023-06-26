@@ -1,7 +1,27 @@
+import { useState } from "react";
 import logo from "../Assets/logo.png";
-import { FormRow } from "../Components";
+import { FormRow, Alert } from "../Components";
+import { useAppContext } from "../Contexts/AppContext";
+
+const initialState = {
+  isMember: true,
+  name: "",
+  email: "",
+  password: "",
+};
 
 const Register = () => {
+  const [values, setValues] = useState(initialState);
+  const { showAlert } = useAppContext();
+
+  const toggleMenu = () => {
+    setValues({ ...values, isMember: !values.isMember });
+  };
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
   return (
     <main className="h-[100vh] flex justify-center items-center ">
       <div className="bg-white px-[4rem] py-[3.2rem] rounded-lg border-t-[5px] border-primaryColor w-[40rem]">
@@ -10,16 +30,48 @@ const Register = () => {
             <img src={logo} alt="Expensify logo" />
             expensify
           </h2>
-          <p className="family text-[3.1rem] leading-[4.1rem] capitalize">login</p>
+          <p className="family text-[3.1rem] leading-[4.1rem] capitalize">
+            {values.isMember ? "Login" : "Register"}
+          </p>
+          {showAlert && <Alert />}
         </div>
         <form className="">
-          <FormRow/>
-          <FormRow/>
-          <button type="submit" className="btn btn-default w-full my-[2rem] text-[1.6rem]">Login</button>
+          {values.isMember ? (
+            ""
+          ) : (
+            <FormRow
+              type="text"
+              name="name"
+              placeholder=""
+              handleChange={handleChange}
+              value={values.name}
+            />
+          )}
+          <FormRow
+            type="email"
+            name="email"
+            placeholder="example@gmail.com"
+            handleChange={handleChange}
+            value={values.email}
+          />
+          <FormRow
+            type="password"
+            name="password"
+            handleChange={handleChange}
+            value={values.password}
+          />
+          <button
+            type="submit"
+            className="btn btn-default w-full my-[2rem] text-[1.6rem]"
+          >
+            Login
+          </button>
         </form>
         <div className="cabin text-[1.6rem] flex gap-2 items-center justify-center">
-          <p>Not a member yet?</p>
-          <button className="text-primaryColor">Register</button>
+          <p>{values.isMember ? "Not a member yet?" : "Already a member?"}</p>
+          <button className="text-primaryColor" onClick={toggleMenu}>
+            {values.isMember ? "Register" : "Login"}
+          </button>
         </div>
       </div>
     </main>
