@@ -12,7 +12,7 @@ const initialState = {
 
 const Register = () => {
   const [values, setValues] = useState(initialState);
-  const { showAlert } = useAppContext();
+  const { showAlert, displayAlert } = useAppContext();
 
   const toggleMenu = () => {
     setValues({ ...values, isMember: !values.isMember });
@@ -20,6 +20,14 @@ const Register = () => {
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const onsubmitHandler = (e) => {
+    e.preventDefault();
+    const { email, password, name, isMember } = values;
+    if (!email || !password || (!isMember && !name)) {
+      displayAlert();
+    }
   };
 
   return (
@@ -35,7 +43,7 @@ const Register = () => {
           </p>
           {showAlert && <Alert />}
         </div>
-        <form className="">
+        <form className="" onSubmit={onsubmitHandler}>
           {values.isMember ? (
             ""
           ) : (
