@@ -32,7 +32,7 @@ const Register = () => {
 
   return (
     <main className="h-[100vh] flex justify-center items-center ">
-      <div className="bg-white px-[4rem] py-[3.2rem] rounded-lg border-t-[5px] border-primaryColor w-[40rem]">
+      <div className="bg-white px-[4rem] border-[1px] py-[3.2rem] rounded-lg border-t-[5px] border-primaryColor w-[40rem]">
         <div className="flex flex-col items-center mb-[3rem]">
           <h2 className="flex gap-2 items-center text-primaryColor font-bold leading-[2.8rem]">
             <img src={logo} alt="Expensify logo" />
