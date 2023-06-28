@@ -1,4 +1,4 @@
-import { DISPLAY_ALERT, CLEAR_ALERT } from "./Action";
+import { DISPLAY_ALERT, CLEAR_ALERT, USER_REGISTRATION_BEGIN, USER_REGISTRATION_SUCCESSFUL } from "./Action";
 
 
 
@@ -17,6 +17,30 @@ const reducer = (state, action) => {
             showAlert: false,
             alertText: '',
             alertType: ''
+        }
+    }
+    if(action.type === USER_REGISTRATION_BEGIN) {
+        return {
+            ...state, 
+            isLoading: true,
+        }
+    }
+    if(action.type === USER_REGISTRATION_SUCCESSFUL) {
+        return {
+            ...state, 
+            isLoading: false,
+            showAlert: true,
+            alertType: 'success',
+            alertText: 'User created!! Redirecting...'
+        }
+    }
+    if(action.type === USER_REGISTRATION_SUCCESSFUL) {
+        return {
+            ...state, 
+            isLoading: false,
+            showAlert: true,
+            alertType: 'danger',
+            alertText: 'There was an error'
         }
     }
 

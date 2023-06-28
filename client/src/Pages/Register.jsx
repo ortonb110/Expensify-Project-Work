@@ -3,6 +3,7 @@ import logo from "../Assets/logo.png";
 import { FormRow, Alert } from "../Components";
 import { useAppContext } from "../Contexts/AppContext";
 
+
 const initialState = {
   isMember: true,
   name: "",
@@ -12,7 +13,7 @@ const initialState = {
 
 const Register = () => {
   const [values, setValues] = useState(initialState);
-  const { showAlert, displayAlert } = useAppContext();
+  const { showAlert, displayAlert, registerUser, isLoading } = useAppContext();
 
   const toggleMenu = () => {
     setValues({ ...values, isMember: !values.isMember });
@@ -27,6 +28,14 @@ const Register = () => {
     const { email, password, name, isMember } = values;
     if (!email || !password || (!isMember && !name)) {
       displayAlert();
+    }
+
+    const currentUser = { email, password, name };
+
+    if (!isMember) {
+      registerUser(currentUser);
+    } else {
+      console.log("Something to come!");
     }
   };
 
@@ -71,6 +80,7 @@ const Register = () => {
           <button
             type="submit"
             className="btn btn-default w-full my-[2rem] text-[1.6rem]"
+            disabled = {isLoading}
           >
             Login
           </button>
