@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from "../Assets/logo.png";
 import { FormRow, Alert } from "../Components";
 import { useAppContext } from "../Contexts/AppContext";
-
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   isMember: true,
@@ -13,8 +13,9 @@ const initialState = {
 
 const Register = () => {
   const [values, setValues] = useState(initialState);
-  const { showAlert, displayAlert, registerUser, isLoading } = useAppContext();
-
+  const {user, showAlert, displayAlert, registerUser, isLoading } =
+    useAppContext();
+  const navigate = useNavigate();
   const toggleMenu = () => {
     setValues({ ...values, isMember: !values.isMember });
   };
@@ -28,16 +29,24 @@ const Register = () => {
     const { email, password, name, isMember } = values;
     if (!email || !password || (!isMember && !name)) {
       displayAlert();
+      return;
     }
 
     const currentUser = { email, password, name };
-
     if (!isMember) {
       registerUser(currentUser);
     } else {
       console.log("Something to come!");
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    }
+  }, [user, navigate]);
 
   return (
     <main className="h-[100vh] flex justify-center items-center ">
@@ -80,9 +89,9 @@ const Register = () => {
           <button
             type="submit"
             className="btn btn-default w-full my-[2rem] text-[1.6rem]"
-            disabled = {isLoading}
+            disabled={isLoading}
           >
-            Login
+            {values.isMember ? "Login" : "Register"}
           </button>
         </form>
         <div className="cabin text-[1.6rem] flex gap-2 items-center justify-center">

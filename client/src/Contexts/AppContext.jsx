@@ -8,18 +8,41 @@ import {
   USER_REGISTRATION_ERROR,
 } from "./Action";
 import axios from "axios";
+
+
+//Get Data from local Storage if it exist
+const user = localStorage.getItem('user')
+const token = localStorage.getItem('token')
+const location = localStorage.getItem('location')
+
 const initialState = {
   showAlert: false,
   alertType: "",
   alertText: "",
   isLoading: false,
-
+  user: user? JSON.parse(user) : null,
+  location: location,
+  token: token,
 };
 
 const AppContext = React.createContext();
 
+
+
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const addToLocalStorage = ({user, token, location}) => {
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', token);
+    localStorage.setItem('location', location);
+  }
+
+  const removefromLocalStorage = ({user, token, location}) => {
+    localStorage.removeItem('user', user);
+    localStorage.removeItem('token', token);
+    localStorage.removeItem('location', location);
+  }
 
   const displayAlert = () => {
     dispatch({ type: DISPLAY_ALERT });
@@ -33,15 +56,28 @@ const AppProvider = ({ children }) => {
   };
 
   const registerUser = async (currentUser) => {
-      dispatch({type: USER_REGISTRATION_BEGIN});
-      const user = await axios.post('/api/v1/auth/register', currentUser);
-      if(user) {
-        dispatch({type: USER_REGISTRATION_SUCCESSFUL}) 
-      } else {
-        dispatch({type: USER_REGISTRATION_ERROR});
-      }
-      
-  }
+    dispatch({ type: USER_REGISTRATION_BEGIN });
+    try {
+      const response = await axios.post("/api/v1/auth/register", currentUser);
+      const { user, token, location } = await response.data;
+      if (user) {
+        dispatch({
+          type: USER_REGISTRATION_SUCCESSFUL,
+          payload: {
+            user,
+            token,
+            location,
+          },
+        });
+      } 
+      addToLocalStorage({user, token, location});
+    } catch (error) {
+      dispatch({
+        type: USER_REGISTRATION_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+  };
 
   return (
     <AppContext.Provider value={{ ...state, displayAlert, registerUser }}>

@@ -2,7 +2,7 @@ import mongoose, { mongo } from "mongoose";
 import { Schema } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
-import jsonwebtoken from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const User = new Schema({
   name: {
@@ -49,8 +49,8 @@ User.pre("save", async function () {
 });
 
 User.methods.createJWT = function () {
-  return jsonwebtoken.sign({ userID: this._id }, process.env.JWTSECRET, {
-    expiresIn: process.env.JWTLIFETIME,
+  return jwt.sign({ userID: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
   });
 };
 
