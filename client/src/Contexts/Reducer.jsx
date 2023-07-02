@@ -43,6 +43,7 @@ const reducer = (state, action) => {
       token: action.payload.token,
     };
   }
+
   if (action.type === USER_REGISTRATION_ERROR) {
     return {
       ...state,
@@ -52,12 +53,14 @@ const reducer = (state, action) => {
       alertText: action.payload.msg,
     };
   }
+
   if (action.type === USER_LOGIN_BEGIN) {
     return {
       ...state,
       isLoading: true,
     };
   }
+  
   if (action.type === USER_LOGIN_SUCCESSFUL) {
     return {
       ...state,
