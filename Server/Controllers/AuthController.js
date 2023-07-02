@@ -49,6 +49,8 @@ const login = async (req, res) => {
       email: user.email,
       location: user.location,
     },
+    token: token,
+    location: user.location,
   });
 };
 

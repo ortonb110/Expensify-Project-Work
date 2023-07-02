@@ -77,28 +77,29 @@ const AppProvider = ({ children }) => {
         payload: { msg: error.response.data.msg },
       });
     }
-    clearAlert()//Clears all alert
+    clearAlert(); //Clears all alert
   };
 
-  const loginUser = async ({ email, password }) => {
-    const currentUser = { email, password };
+  const loginUser = async (currentUser) => {
     dispatch({ type: USER_LOGIN_BEGIN });
     try {
-      const { data } = await axios.post("/api/v1/auth/login", currentUser);
-      const { user, token, location } = data;
+      const response = await axios.post("/api/v1/auth/login", currentUser);
+      const { user, token, location } = await response.data;
+
       if (user) {
         dispatch({
           type: USER_LOGIN_SUCCESSFUL,
           payload: { user, token, location },
         });
       }
+      addToLocalStorage({user, token, location});
     } catch (error) {
       dispatch({
-        type: USER_REGISTRATION_ERROR,
+        type: USER_LOGIN_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
-    clearAlert()//Clears all alert
+    clearAlert(); //Clears all alert
   };
 
   return (
