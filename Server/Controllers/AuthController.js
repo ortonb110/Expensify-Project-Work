@@ -27,8 +27,29 @@ const register = async (req, res) => {
     location: user.location,
   });
 };
-const login = (req, res) => {
-  res.status(StatusCodes.OK).json({ msg: "Login" });
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    throw new BadRequestError("Please enter all values!");
+  }
+  const user = await User.findOne({ email }).select("+password");
+  if (!user) {
+    throw new BadRequestError("Email does not exist!");
+  }
+  const isPassword = await user.comparePassword(password);
+  if (!isPassword) {
+    throw new BadRequestError("Password incorrect!");
+  }
+  user.password = undefined;
+  const token = user.createJWT();
+
+  res.status(StatusCodes.OK).json({
+    user: {
+      name: user.name,
+      email: user.email,
+      location: user.location,
+    },
+  });
 };
 
 export { register, login };

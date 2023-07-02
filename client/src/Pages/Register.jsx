@@ -13,7 +13,7 @@ const initialState = {
 
 const Register = () => {
   const [values, setValues] = useState(initialState);
-  const {user, showAlert, displayAlert, registerUser, isLoading } =
+  const {user, showAlert, displayAlert, registerUser, isLoading, loginUser } =
     useAppContext();
   const navigate = useNavigate();
   const toggleMenu = () => {
@@ -36,7 +36,7 @@ const Register = () => {
     if (!isMember) {
       registerUser(currentUser);
     } else {
-      console.log("Something to come!");
+      loginUser(currentUser);
     }
   };
 
