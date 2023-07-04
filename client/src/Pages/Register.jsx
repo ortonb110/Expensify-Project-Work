@@ -70,8 +70,9 @@ const Register = () => {
             <FormRow
               type="text"
               name="name"
-              placeholder=""
+              placeholder="John Appleseed"
               handleChange={handleChange}
+              
               value={values.name}
             />
           )}
@@ -86,6 +87,7 @@ const Register = () => {
             type="password"
             name="password"
             handleChange={handleChange}
+            
             value={values.password}
           />
           <button
