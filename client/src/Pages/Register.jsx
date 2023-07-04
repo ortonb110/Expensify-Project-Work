@@ -12,8 +12,10 @@ const initialState = {
 };
 
 const Register = () => {
+  //Todo: Improve UX experience on the password strength checker.
+  //Todo: Write a function to check for password strength!
   const [values, setValues] = useState(initialState);
-  const {user, showAlert, displayAlert, registerUser, isLoading, loginUser } =
+  const { user, showAlert, displayAlert, registerUser, isLoading, loginUser } =
     useAppContext();
   const navigate = useNavigate();
   const toggleMenu = () => {
@@ -41,7 +43,6 @@ const Register = () => {
   };
 
   useEffect(() => {
-    
     if (user) {
       setTimeout(() => {
         navigate("/");
