@@ -41,7 +41,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    console.log(user);
+    
     if (user) {
       setTimeout(() => {
         navigate("/");

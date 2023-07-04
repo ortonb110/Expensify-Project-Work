@@ -92,7 +92,7 @@ const AppProvider = ({ children }) => {
           payload: { user, token, location },
         });
       }
-      addToLocalStorage({user, token, location});
+      addToLocalStorage({ user, token, location });
     } catch (error) {
       dispatch({
         type: USER_LOGIN_ERROR,

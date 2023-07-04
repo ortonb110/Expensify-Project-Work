@@ -14,6 +14,10 @@ const register = async (req, res) => {
     throw new BadRequestError(`${email} already exist!`);
   }
 
+  if (password.length < 6) {
+    throw new BadRequestError("Password too weak!");
+  }
+
   const user = await User.create({ name, email, password });
   const token = user.createJWT();
   res.status(StatusCodes.CREATED).json({
