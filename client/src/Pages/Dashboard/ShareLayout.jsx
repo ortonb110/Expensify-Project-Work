@@ -1,12 +1,12 @@
 import { Link, Outlet } from "react-router-dom";
 import { Fragment } from "react";
-
+import {BigSidebar, SmallSidebar} from '.././../Components/index'
 const ShareLayout = () => {
   return (
     <Fragment>
       <nav>
-        <Link to="add-expense">Add Expense</Link>
-        <Link to="all-expenses">All Expenses</Link>
+        <SmallSidebar/>
+        <BigSidebar/>
       </nav>
       <Outlet/>
     </Fragment>

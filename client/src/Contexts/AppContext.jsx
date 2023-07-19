@@ -9,6 +9,7 @@ import {
   USER_LOGIN_BEGIN,
   USER_LOGIN_SUCCESSFUL,
   USER_LOGIN_ERROR,
+  SHOW_TOGGLE,
 } from "./Action";
 import axios from "axios";
 
@@ -26,6 +27,7 @@ const initialState = {
   user: user ? JSON.parse(user) : null,
   location: location,
   token: token,
+  showToggle: false,
 };
 
 const AppContext = React.createContext();
@@ -103,9 +105,13 @@ const AppProvider = ({ children }) => {
     clearAlert(); //Clears all alert
   };
 
+  const toggleShow = () => {
+    dispatch({type: SHOW_TOGGLE});
+  }
+
   return (
     <AppContext.Provider
-      value={{ ...state, displayAlert, registerUser, loginUser }}
+      value={{ ...state, displayAlert, registerUser, loginUser, toggleShow }}
     >
       {children}
     </AppContext.Provider>

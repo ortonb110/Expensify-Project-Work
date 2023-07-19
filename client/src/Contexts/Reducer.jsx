@@ -7,6 +7,7 @@ import {
   USER_LOGIN_BEGIN,
   USER_LOGIN_SUCCESSFUL,
   USER_LOGIN_ERROR,
+  SHOW_TOGGLE,
 } from "./Action";
 
 const reducer = (state, action) => {
@@ -60,7 +61,7 @@ const reducer = (state, action) => {
       isLoading: true,
     };
   }
-  
+
   if (action.type === USER_LOGIN_SUCCESSFUL) {
     return {
       ...state,
@@ -79,6 +80,12 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: "danger",
       alertText: action.payload.msg,
+    };
+  }
+  if (action.type === SHOW_TOGGLE) {
+    return {
+      ...state,
+      showToggle: !state.showToggle,
     };
   }
 
