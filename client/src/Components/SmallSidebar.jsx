@@ -8,7 +8,9 @@ const SmallSidebar = () => {
   return (
     <div className="flex justify-between">
       <button type="button">
-        <GiHamburgerMenu />
+        {
+            
+        }
       </button>
       <h2>Dashboard</h2>
       <button type="button" onClick={toggleShow}>
