@@ -10,6 +10,7 @@ import {
   USER_LOGIN_SUCCESSFUL,
   USER_LOGIN_ERROR,
   SHOW_TOGGLE,
+  LOGOUT_USER,
 } from "./Action";
 import axios from "axios";
 
@@ -41,10 +42,10 @@ const AppProvider = ({ children }) => {
     localStorage.setItem("location", location);
   };
 
-  const removefromLocalStorage = ({ user, token, location }) => {
-    localStorage.removeItem("user", user);
-    localStorage.removeItem("token", token);
-    localStorage.removeItem("location", location);
+  const removeFromLocalStorage = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("location");
   };
 
   const displayAlert = () => {
@@ -106,12 +107,17 @@ const AppProvider = ({ children }) => {
   };
 
   const toggleShow = () => {
-    dispatch({type: SHOW_TOGGLE});
-  }
+    dispatch({ type: SHOW_TOGGLE });
+  };
+
+  const logOutUser = () => {
+    dispatch({ type: LOGOUT_USER });
+    removeFromLocalStorage();
+  };
 
   return (
     <AppContext.Provider
-      value={{ ...state, displayAlert, registerUser, loginUser, toggleShow }}
+      value={{ ...state, displayAlert, registerUser, loginUser, toggleShow, logOutUser }}
     >
       {children}
     </AppContext.Provider>

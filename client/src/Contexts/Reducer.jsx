@@ -8,6 +8,7 @@ import {
   USER_LOGIN_SUCCESSFUL,
   USER_LOGIN_ERROR,
   SHOW_TOGGLE,
+  LOGOUT_USER,
 } from "./Action";
 
 const reducer = (state, action) => {
@@ -86,6 +87,13 @@ const reducer = (state, action) => {
     return {
       ...state,
       showToggle: !state.showToggle,
+    };
+  }
+  if (action.type === LOGOUT_USER) {
+    return {
+      ...state,
+      user: null,
+      token: null,
     };
   }
 
