@@ -5,7 +5,7 @@ import { AiOutlineDown } from "react-icons/ai";
 import { GrClose } from "react-icons/gr";
 import { useState } from "react";
 const SmallSidebar = () => {
-  const {logoutUser} = useAppContext();
+  const {logOutUser} = useAppContext();
   const [toggleLogout, setToggleLogOut] = useState(false);
 
   const logOut = () => {
@@ -24,7 +24,7 @@ const SmallSidebar = () => {
         {user && user.name}
         <AiOutlineDown />
       </button>
-      <button type="button" className={toggleLogout ? "block" : "hidden"} onClick={logoutUser}>
+      <button type="button" className={toggleLogout ? "block" : "hidden"} onClick={logOutUser}>
         logout
       </button>
     </div>
