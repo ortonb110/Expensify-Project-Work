@@ -9,6 +9,7 @@ import {
   USER_LOGIN_ERROR,
   SHOW_TOGGLE,
   LOGOUT_USER,
+  TOGGLE_SIDEBAR
 } from "./Action";
 
 const reducer = (state, action) => {
@@ -95,6 +96,11 @@ const reducer = (state, action) => {
       user: null,
       token: null,
     };
+  }
+  if(action.type === TOGGLE_SIDEBAR) {
+    return {
+      ...state, showSideBar: !state.showSideBar
+    }
   }
 
   throw new Error(`no such action: ${action.type}`);

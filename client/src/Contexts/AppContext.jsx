@@ -11,6 +11,7 @@ import {
   USER_LOGIN_ERROR,
   SHOW_TOGGLE,
   LOGOUT_USER,
+  TOGGLE_SIDEBAR
 } from "./Action";
 import axios from "axios";
 
@@ -30,6 +31,7 @@ const initialState = {
   token: token,
   showToggle: false,
   showSideBar: true,
+  
 };
 
 const AppContext = React.createContext();
@@ -116,9 +118,13 @@ const AppProvider = ({ children }) => {
     removeFromLocalStorage();
   };
 
+  const toggleSidebar = () => {
+    dispatch({type: TOGGLE_SIDEBAR})
+  }
+
   return (
     <AppContext.Provider
-      value={{ ...state, displayAlert, registerUser, loginUser, toggleShow, logOutUser }}
+      value={{ ...state, displayAlert, registerUser, loginUser, toggleShow, logOutUser, toggleSidebar }}
     >
       {children}
     </AppContext.Provider>
