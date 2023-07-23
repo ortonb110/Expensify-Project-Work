@@ -29,6 +29,7 @@ const initialState = {
   location: location,
   token: token,
   showToggle: false,
+  showSideBar: true,
 };
 
 const AppContext = React.createContext();

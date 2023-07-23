@@ -1,16 +1,28 @@
-import { Link, Outlet } from "react-router-dom";
-import { Fragment } from "react";
+import {  Outlet } from "react-router-dom";
 import {BigSidebar, SmallSidebar} from '.././../Components/index'
+import Wrapper from '../../Assets/wrappers/SharedLayout'
+import NavBar from "../../Components/NavBar";
 const ShareLayout = () => {
   return (
-    <Fragment>
-      <nav>
-        <SmallSidebar/>
-        <BigSidebar/>
-      </nav>
-      <Outlet/>
-    </Fragment>
+    <Wrapper>
+        <main className="dashboard">
+            <SmallSidebar/>
+            <BigSidebar/>
+            <div>
+              <NavBar/>
+              <div className="dashboard-page">
+                <Outlet/>
+              </div>
+            </div>
+        </main>
+    </Wrapper>
   );
 };
 
+
+{/* <nav>
+        <SmallSidebar/>
+        <BigSidebar/>
+      </nav>
+      <Outlet/> */}
 export default ShareLayout;
