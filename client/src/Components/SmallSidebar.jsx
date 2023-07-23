@@ -24,7 +24,7 @@ const SmallSidebar = () => {
           Expensify
         </header>
         <div className="nav-links">
-          <NavLinks toggleSideBar={toggleSidebar}/>
+          <NavLinks toggleSidebar={toggleSidebar}/>
         </div>
         </div>
       </div>

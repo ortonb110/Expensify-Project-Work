@@ -20,8 +20,8 @@ const NavBar = () => {
           <span
             className={
               showSideBar
-                ? "w-[2.5rem] h-[0.2rem] bg-[#2cb1bc] translate-x-[1rem] transition-all ease-in-out duration-200"
-                : "translate-x-0 transition-all ease-in-out duration-200 w-[2.5rem] h-[0.2rem] bg-[#2cb1bc]"
+                ? "translate-x-0 transition-all ease-in-out duration-200 w-[2.5rem] h-[0.2rem] bg-[#2cb1bc]"
+                : "w-[2.5rem] h-[0.2rem] bg-[#2cb1bc] translate-x-[1rem] transition-all ease-in-out duration-200"
             }
           ></span>
           <span className="w-[2.5rem] h-[0.2rem] bg-[#2cb1bc]"></span>
