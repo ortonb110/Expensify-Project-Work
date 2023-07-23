@@ -1,9 +1,19 @@
-const FormRow = ({type, name, placeholder, handleChange, value}) => {
+const FormRow = ({
+  type,
+  name,
+  placeholder,
+  handleChange,
+  value,
+  labelText,
+}) => {
   return (
-    <div className="flex flex-col mb-[1.5rem]">
-      <label htmlFor={name} className="capitalize cabin mb-[0.8rem]">{name}</label>
+    // flex flex-col mb-[1.5rem]
+    <div className="form-row">
+      <label htmlFor={name} className="form-label cabin mb-[0.8rem]">
+        {labelText || name}
+      </label>
       <input
-      value={value}
+        value={value}
         type={type}
         name={name}
         id={name}
