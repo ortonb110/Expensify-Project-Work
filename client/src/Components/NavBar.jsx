@@ -9,6 +9,7 @@ const NavBar = () => {
   const { toggleSidebar, logOutUser, user, showSideBar } = useAppContext();
   const [showLogout, setShowLogout] = useState(false);
   return (
+    
     <Wrapper>
       <div className="nav-center">
         <button
@@ -20,8 +21,8 @@ const NavBar = () => {
           <span
             className={
               showSideBar
-                ? "translate-x-0 transition-all ease-in-out duration-200 w-[2.5rem] h-[0.2rem] bg-[#2cb1bc]"
-                : "w-[2.5rem] h-[0.2rem] bg-[#2cb1bc] translate-x-[1rem] transition-all ease-in-out duration-200"
+                ? "w-[2.5rem] h-[0.2rem] bg-[#2cb1bc] translate-x-[0] transition-all ease-in-out duration-200"
+                : "translate-x-[1rem] transition-all ease-in-out duration-200 w-[2.5rem] h-[0.2rem] bg-[#2cb1bc]"
             }
           ></span>
           <span className="w-[2.5rem] h-[0.2rem] bg-[#2cb1bc]"></span>
