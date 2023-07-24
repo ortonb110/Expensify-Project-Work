@@ -9,7 +9,10 @@ import {
   USER_LOGIN_ERROR,
   SHOW_TOGGLE,
   LOGOUT_USER,
-  TOGGLE_SIDEBAR
+  TOGGLE_SIDEBAR,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_ERROR
 } from "./Action";
 
 const reducer = (state, action) => {
@@ -100,6 +103,33 @@ const reducer = (state, action) => {
   if(action.type === TOGGLE_SIDEBAR) {
     return {
       ...state, showSideBar: !state.showSideBar
+    }
+  }
+  if(action.type === UPDATE_USER_BEGIN) {
+    return {
+      ...state, 
+      isLoading: true
+    }
+  }
+  if(action.type === UPDATE_USER_SUCCESS) {
+    return {
+      ...state, 
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Profile update successful",
+      user: action.payload.user,
+      token: action.payload.token,
+      
+    }
+  }
+  if(action.type === UPDATE_USER_BEGIN) {
+    return {
+      ...state, 
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
     }
   }
 
