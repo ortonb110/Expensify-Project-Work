@@ -24,6 +24,7 @@ app.get("/api/v1", (req, res) => {
   res.status(StatusCodes.OK).send("Welcome!!");
 });
 app.use("/api/v1/auth", authRouter);
+
 app.use('/api/v1/expense', Auth, expenseRouter)
 
 
