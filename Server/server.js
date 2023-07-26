@@ -17,11 +17,15 @@ import ErrorHandler from "./ErrorHandler/errorHandler.js";
 //Routes middleware
 import authRouter from "./Routes/AuthRoute.js";
 import { StatusCodes } from "http-status-codes";
+import expenseRouter from './Routes/ExpenseRoute.js'
+import Auth from "./Middlewares/Auth.js";
 
 app.get("/api/v1", (req, res) => {
   res.status(StatusCodes.OK).send("Welcome!!");
 });
 app.use("/api/v1/auth", authRouter);
+app.use('/api/v1/expense', Auth, expenseRouter)
+
 
 app.use(notFound);
 app.use(ErrorHandler);
