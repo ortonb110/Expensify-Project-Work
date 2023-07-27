@@ -19,6 +19,7 @@ import {
   ADD_EXPENSE_BEGIN,
   ADD_EXPENSE_SUCCESS,
   ADD_EXPENSE_ERROR,
+  CLEAR_INPUTS,
 } from "./Action";
 import axios from "axios";
 
@@ -203,7 +204,7 @@ const AppProvider = ({ children }) => {
         amount,
         receiver,
       });
-      
+
       dispatch({ type: ADD_EXPENSE_SUCCESS });
     } catch (error) {
       dispatch({
@@ -213,6 +214,11 @@ const AppProvider = ({ children }) => {
     }
     clearAlert();
   };
+
+  const clearInputs = () => {
+      dispatch({type: CLEAR_INPUTS})
+      clearAlert();
+  }
 
   return (
     <AppContext.Provider
@@ -227,6 +233,7 @@ const AppProvider = ({ children }) => {
         updateUser,
         handleChange,
         addExpense,
+        clearInputs
       }}
     >
       {children}

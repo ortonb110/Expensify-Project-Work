@@ -16,7 +16,8 @@ import {
   HANDLE_CHANGE,
   ADD_EXPENSE_BEGIN,
   ADD_EXPENSE_SUCCESS,
-  ADD_EXPENSE_ERROR
+  ADD_EXPENSE_ERROR,
+  CLEAR_INPUTS
 } from "./Action";
 
 const reducer = (state, action) => {
@@ -163,6 +164,18 @@ const reducer = (state, action) => {
       isLoading: false,
       alertType: "danger",
       alertText: "Failed to add expense",
+    }
+  }
+
+  if(action.type === CLEAR_INPUTS) {
+    return {
+      ...state, 
+      description: '',
+      receiver: '',
+      amount: '',
+      showAlert: true,
+      alertText: 'Cleared',
+      alertType: 'danger'
     }
   }
 

@@ -12,6 +12,7 @@ const AddExpense = () => {
     amount,
     description,
     addExpense,
+    clearInputs
   } = useAppContext();
 
   const method = ["Cash", "Mobile Money", "Online Payment"];
@@ -44,16 +45,19 @@ const AddExpense = () => {
             labelText={"Purpose/Description"}
             name={"description"}
             handleChange={handleExpenseInput}
+            value={description}
           />
           <FormRow
             labelText={"amount"}
             name={"amount"}
             handleChange={handleExpenseInput}
+            value={amount}
           />
           <FormRow
             labelText={"Paid to:"}
             name={"receiver"}
             handleChange={handleExpenseInput}
+            value={receiver}
           />
           <FormRowSelect labelText={"Payment Method:"} list={method} />
           <FormRowSelect labelText={"Status:"} list={status} />
@@ -70,7 +74,7 @@ const AddExpense = () => {
             <button
               type="button"
               className="btn btn-block clear-btn"
-              onClick={() => console.log("Clicked!")}
+              onClick={clearInputs}
             >
               Clear
             </button>
