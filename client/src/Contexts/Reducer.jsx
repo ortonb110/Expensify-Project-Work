@@ -12,7 +12,11 @@ import {
   TOGGLE_SIDEBAR,
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_ERROR
+  UPDATE_USER_ERROR,
+  HANDLE_CHANGE,
+  ADD_EXPENSE_BEGIN,
+  ADD_EXPENSE_SUCCESS,
+  ADD_EXPENSE_ERROR
 } from "./Action";
 
 const reducer = (state, action) => {
@@ -123,13 +127,42 @@ const reducer = (state, action) => {
       
     }
   }
-  if(action.type === UPDATE_USER_BEGIN) {
+  if(action.type === UPDATE_USER_ERROR) {
     return {
       ...state, 
       isLoading: false,
       showAlert: true,
       alertType: "danger",
       alertText: action.payload.msg,
+    }
+  }
+  if(action.type === HANDLE_CHANGE) {
+    return {
+      ...state, 
+      [action.payload.name]: action.payload.value
+    }
+  }
+  if(action.type === ADD_EXPENSE_BEGIN) {
+    return {
+      ...state, 
+      isLoading: true
+    }
+  }
+  if(action.type === ADD_EXPENSE_SUCCESS) {
+    return {
+      ...state, 
+      isLoading: false,
+      alertType: "success",
+      alertText: "Expense added",
+      showAlert: true,
+    }
+  }
+  if(action.type === ADD_EXPENSE_ERROR) {
+    return {
+      ...state, 
+      isLoading: false,
+      alertType: "danger",
+      alertText: "Failed to add expense",
     }
   }
 

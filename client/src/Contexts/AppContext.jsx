@@ -14,7 +14,11 @@ import {
   TOGGLE_SIDEBAR,
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_ERROR
+  UPDATE_USER_ERROR,
+  HANDLE_CHANGE,
+  ADD_EXPENSE_BEGIN,
+  ADD_EXPENSE_SUCCESS,
+  ADD_EXPENSE_ERROR,
 } from "./Action";
 import axios from "axios";
 
@@ -34,7 +38,11 @@ const initialState = {
   token: token,
   showToggle: false,
   showSideBar: true,
-  
+  paymentMethod: ["Cash", "Mobile Money", "Online Payment"],
+  status: ["Paid", "Pending"],
+  description: "",
+  amount: 0,
+  receiver: "",
 };
 
 const AppContext = React.createContext();
@@ -44,26 +52,32 @@ const AppProvider = ({ children }) => {
 
   // Creating Axios Interceptors
   const authFetch = axios.create({
-    baseURL: 'api/v1',
-  })
+    baseURL: "api/v1",
+  });
 
   //Axios request interceptor
-  authFetch.interceptors.request.use((config)=> {
-    config.headers.Authorization = `Bearer ${state.token}`
-    return config;
-  }, (error) => {
-    return Promise.reject(error);
-  })
+  authFetch.interceptors.request.use(
+    (config) => {
+      config.headers.Authorization = `Bearer ${state.token}`;
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
   //Axios response interceptor
-  authFetch.interceptors.response.use((response)=> {
-    return response;
-  }, (error)=> {
-    if(error.response.status === 401) {
-      logOutUser();
+  authFetch.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error.response.status === 401) {
+        logOutUser();
+      }
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
-  })
+  );
 
   const addToLocalStorage = ({ user, token, location }) => {
     localStorage.setItem("user", JSON.stringify(user));
@@ -145,26 +159,75 @@ const AppProvider = ({ children }) => {
   };
 
   const toggleSidebar = () => {
-    dispatch({type: TOGGLE_SIDEBAR})
-  }
+    dispatch({ type: TOGGLE_SIDEBAR });
+  };
 
-  const updateUser =async (currentUser) => {
-      dispatch({type: UPDATE_USER_BEGIN}) 
-      try {
-        const {data} = await authFetch.patch('/auth/update', currentUser)
-        const {user, token, location} = data;
-        dispatch({type: UPDATE_USER_SUCCESS, payload:{user, token, location}})
-        addToLocalStorage({user, token, location});
-      } catch (error) {
-        dispatch({type: UPDATE_USER_ERROR, payload: {msg: error.response.data.msg}})
-      }
+  const updateUser = async (currentUser) => {
+    dispatch({ type: UPDATE_USER_BEGIN });
+    try {
+      const { data } = await authFetch.patch("/auth/update", currentUser);
+      const { user, token, location } = data;
+      dispatch({
+        type: UPDATE_USER_SUCCESS,
+        payload: { user, token, location },
+      });
+      addToLocalStorage({ user, token, location });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_USER_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
 
-      clearAlert();
-  }
+    clearAlert();
+  };
+
+  const handleChange = ({ name, value }) => {
+    dispatch({
+      type: HANDLE_CHANGE,
+      payload: {
+        name,
+        value,
+      },
+    });
+  };
+
+  const addExpense = async () => {
+    const description = state.description;
+    const amount = state.amount;
+    const receiver = state.receiver;
+    dispatch({ type: ADD_EXPENSE_BEGIN });
+    try {
+      const expense = await authFetch.post("/add-expense", {
+        description,
+        amount,
+        receiver,
+      });
+      
+      dispatch({ type: ADD_EXPENSE_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: ADD_EXPENSE_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearAlert();
+  };
 
   return (
     <AppContext.Provider
-      value={{ ...state, displayAlert, registerUser, loginUser, toggleShow, logOutUser, toggleSidebar, updateUser }}
+      value={{
+        ...state,
+        displayAlert,
+        registerUser,
+        loginUser,
+        toggleShow,
+        logOutUser,
+        toggleSidebar,
+        updateUser,
+        handleChange,
+        addExpense,
+      }}
     >
       {children}
     </AppContext.Provider>
