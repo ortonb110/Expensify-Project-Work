@@ -10,7 +10,7 @@ const addExpense = async (req, res) => {
 
   req.body.createdBy = req.user.userID;
 
-  const { expense } = await Expenses.create(req.body);
+  const  expense  = await Expenses.create(req.body);
   res.status(StatusCodes.OK).json({
     expense,
   });
