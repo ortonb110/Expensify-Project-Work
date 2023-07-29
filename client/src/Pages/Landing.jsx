@@ -14,7 +14,7 @@ const Landing = () => {
     if (user) {
       navigate("/");
     }
-  });
+  }, []);
 
   return (
     <main className="px-[2rem] md:px-[5rem] xl:px-[20rem] py-[2rem]">

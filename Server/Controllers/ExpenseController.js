@@ -10,10 +10,18 @@ const addExpense = async (req, res) => {
 
   req.body.createdBy = req.user.userID;
 
-  const  expense  = await Expenses.create(req.body);
+  const expense = await Expenses.create(req.body);
   res.status(StatusCodes.OK).json({
     expense,
   });
 };
 
-export { addExpense };
+const getAllExpense = async (req, res) => {
+  const allExpenses = await Expenses.find({ createdBy: req.user.userID });
+
+  res
+    .status(StatusCodes.OK)
+    .json({ allExpenses, totalExpenses: allExpenses.length, numOfPages: 1 });
+};
+
+export { addExpense, getAllExpense };

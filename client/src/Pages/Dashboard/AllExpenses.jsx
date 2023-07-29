@@ -1,9 +1,12 @@
-import React from 'react'
-
+import { Fragment } from "react";
+import { ExpenseContainer, SearchContainer } from "../../Components/index";
 const AllExpenses = () => {
   return (
-    <div>All Expenses</div>
-  )
-}
+    <Fragment>
+      <SearchContainer />
+      <ExpenseContainer />
+    </Fragment>
+  );
+};
 
-export default AllExpenses
+export default AllExpenses;

@@ -17,7 +17,10 @@ import {
   ADD_EXPENSE_BEGIN,
   ADD_EXPENSE_SUCCESS,
   ADD_EXPENSE_ERROR,
-  CLEAR_INPUTS
+  CLEAR_INPUTS,
+  GET_EXPENSES_BEGIN,
+  GET_EXPENSES_SUCCESS,
+  GET_EXPENSES_ERROR
 } from "./Action";
 
 const reducer = (state, action) => {
@@ -176,6 +179,29 @@ const reducer = (state, action) => {
       showAlert: true,
       alertText: 'Cleared',
       alertType: 'danger'
+    }
+  }
+
+  if(action.type === GET_EXPENSES_BEGIN) {
+    return {
+      ...state, 
+      isLoading: true
+    }
+  }
+  if(action.type === GET_EXPENSES_SUCCESS) {
+    return {
+      ...state, 
+      isLoading: false,
+      expenses: action.payload.allExpenses,
+      totalExpenses: action.payload.totalExpenses,
+      numOfPages: action.payload.numOfPages
+    }
+  }
+  if(action.type === GET_EXPENSES_ERROR) {
+    return {
+      ...state, 
+      isLoading: false,
+      
     }
   }
 

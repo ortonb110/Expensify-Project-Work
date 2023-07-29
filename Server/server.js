@@ -25,7 +25,7 @@ app.get("/api/v1", (req, res) => {
 });
 app.use("/api/v1/auth", authRouter);
 
-app.use("/api/v1/", Auth, expenseRouter);
+app.use("/api/v1/expense", Auth, expenseRouter);
 
 app.use(notFound);
 app.use(ErrorHandler);

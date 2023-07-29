@@ -20,6 +20,9 @@ import {
   ADD_EXPENSE_SUCCESS,
   ADD_EXPENSE_ERROR,
   CLEAR_INPUTS,
+  GET_EXPENSES_BEGIN,
+  GET_EXPENSES_SUCCESS,
+  GET_EXPENSES_ERROR,
 } from "./Action";
 import axios from "axios";
 
@@ -44,6 +47,9 @@ const initialState = {
   description: "",
   amount: 0,
   receiver: "",
+  expenses: [],
+  totalExpenses: "",
+  numOfPages: 1,
 };
 
 const AppContext = React.createContext();
@@ -199,7 +205,7 @@ const AppProvider = ({ children }) => {
     const receiver = state.receiver;
     dispatch({ type: ADD_EXPENSE_BEGIN });
     try {
-      const expense = await authFetch.post("/add-expense", {
+      const expense = await authFetch.post("/expense/add-expense", {
         description,
         amount,
         receiver,
@@ -216,9 +222,27 @@ const AppProvider = ({ children }) => {
   };
 
   const clearInputs = () => {
-      dispatch({type: CLEAR_INPUTS})
-      clearAlert();
-  }
+    dispatch({ type: CLEAR_INPUTS });
+    clearAlert();
+  };
+
+  const getExpenses = async () => {
+    dispatch({ type: GET_EXPENSES_BEGIN });
+    try {
+      const { data } = await authFetch.get("/expense/all-expenses");
+      const { allExpenses, totalExpenses, numOfPages } = data;
+      dispatch({
+        type: GET_EXPENSES_SUCCESS,
+        payload: {
+          allExpenses,
+          totalExpenses,
+          numOfPages,
+        },
+      });
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
   return (
     <AppContext.Provider
@@ -233,7 +257,8 @@ const AppProvider = ({ children }) => {
         updateUser,
         handleChange,
         addExpense,
-        clearInputs
+        clearInputs,
+        getExpenses,
       }}
     >
       {children}
