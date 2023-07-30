@@ -5,7 +5,8 @@
 /.pnp
 .pnp.js
 .env
-
+.key
+.csr
 # testing
 /coverage
 
