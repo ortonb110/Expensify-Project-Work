@@ -5,7 +5,7 @@ import Loading from '../Components/Loading'
 import {Expense} from '../Components/index'
 
 const ExpenseContainer = () => {
-    const {isLoading, getExpenses, expenses, numOfPages, totalExpenses} = useAppContext();
+    const {isLoading, getExpenses, expenses, numOfPages, totalExpenses, paymentMethod} = useAppContext();
 
     useEffect(()=> {
         getExpenses();

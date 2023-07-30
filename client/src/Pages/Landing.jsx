@@ -7,14 +7,14 @@ import { useNavigate } from "react-router-dom";
 const user = localStorage.getItem("user"); //This code snippet will check to see if a user already logged in and if so redirects user to dashbaord
 
 const Landing = () => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   
 
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/");
+  //   }
+  // }, []);
 
   return (
     <main className="px-[2rem] md:px-[5rem] xl:px-[20rem] py-[2rem]">

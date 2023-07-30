@@ -50,6 +50,7 @@ const initialState = {
   expenses: [],
   totalExpenses: "",
   numOfPages: 1,
+  method: ''
 };
 
 const AppContext = React.createContext();
