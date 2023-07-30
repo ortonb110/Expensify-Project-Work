@@ -5,9 +5,9 @@
 /.pnp
 .pnp.js
 .env
-server.csr
-server.key
-server.pass.key
+.server.csr
+.server.key
+.server.pass.key
 # testing
 /coverage
 
