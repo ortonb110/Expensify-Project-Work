@@ -5,6 +5,7 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { MdPayment } from "react-icons/md";
 import Wrapper from "../Assets/wrappers/Job";
+import { useAppContext } from "../Contexts/AppContext";
 
 const Expense = ({
   description,
@@ -15,6 +16,8 @@ const Expense = ({
   payment,
   status,
 }) => {
+  const { setEditId } = useAppContext();
+
   let date = moment(createdAt);
   date = date.format("Do MM, YYYY");
 
@@ -54,7 +57,13 @@ const Expense = ({
         </div>
         <footer>
           <div className="actions">
-            <Link to={"/add-job"} className="btn edit-btn">
+            <Link
+              to={"/add-expense"}
+              className="btn edit-btn"
+              onClick={() => {
+                setEditId(_id);
+              }}
+            >
               Edit
             </Link>
             <button type="button" className="btn delete-btn">

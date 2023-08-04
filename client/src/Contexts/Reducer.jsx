@@ -20,7 +20,11 @@ import {
   CLEAR_INPUTS,
   GET_EXPENSES_BEGIN,
   GET_EXPENSES_SUCCESS,
-  GET_EXPENSES_ERROR
+  GET_EXPENSES_ERROR,
+  EDIT_EXPENSE_BEGIN,
+  EDIT_EXPENSE_SUCCESS,
+  EDIT_EXPENSE_ERROR,
+  SET_EDIT_EXPENSE
 } from "./Action";
 
 const reducer = (state, action) => {
@@ -108,101 +112,115 @@ const reducer = (state, action) => {
       token: null,
     };
   }
-  if(action.type === TOGGLE_SIDEBAR) {
+  if (action.type === TOGGLE_SIDEBAR) {
     return {
-      ...state, showSideBar: !state.showSideBar
-    }
+      ...state,
+      showSideBar: !state.showSideBar,
+    };
   }
-  if(action.type === UPDATE_USER_BEGIN) {
+  if (action.type === UPDATE_USER_BEGIN) {
     return {
-      ...state, 
-      isLoading: true
-    }
+      ...state,
+      isLoading: true,
+    };
   }
-  if(action.type === UPDATE_USER_SUCCESS) {
+  if (action.type === UPDATE_USER_SUCCESS) {
     return {
-      ...state, 
+      ...state,
       isLoading: false,
       showAlert: true,
       alertType: "success",
       alertText: "Profile update successful",
       user: action.payload.user,
       token: action.payload.token,
-      
-    }
+    };
   }
-  if(action.type === UPDATE_USER_ERROR) {
+  if (action.type === UPDATE_USER_ERROR) {
     return {
-      ...state, 
+      ...state,
       isLoading: false,
       showAlert: true,
       alertType: "danger",
       alertText: action.payload.msg,
-    }
+    };
   }
-  if(action.type === HANDLE_CHANGE) {
+  if (action.type === HANDLE_CHANGE) {
     return {
-      ...state, 
-      [action.payload.name]: action.payload.value
-    }
+      ...state,
+      [action.payload.name]: action.payload.value,
+    };
   }
-  if(action.type === ADD_EXPENSE_BEGIN) {
+  if (action.type === ADD_EXPENSE_BEGIN) {
     return {
-      ...state, 
-      isLoading: true
-    }
+      ...state,
+      isLoading: true,
+    };
   }
-  if(action.type === ADD_EXPENSE_SUCCESS) {
+  if (action.type === ADD_EXPENSE_SUCCESS) {
     return {
-      ...state, 
+      ...state,
       isLoading: false,
       alertType: "success",
       alertText: "Expense added",
       showAlert: true,
-    }
+    };
   }
-  if(action.type === ADD_EXPENSE_ERROR) {
+  if (action.type === ADD_EXPENSE_ERROR) {
     return {
-      ...state, 
+      ...state,
       isLoading: false,
       alertType: "danger",
       alertText: "Failed to add expense",
-    }
+    };
   }
 
-  if(action.type === CLEAR_INPUTS) {
+  if (action.type === CLEAR_INPUTS) {
     return {
-      ...state, 
-      description: '',
-      receiver: '',
-      amount: '',
+      ...state,
+      description: "",
+      receiver: "",
+      amount: "",
       showAlert: true,
-      alertText: 'Cleared',
-      alertType: 'danger'
-    }
+      alertText: "Cleared",
+      alertType: "danger",
+    };
   }
 
-  if(action.type === GET_EXPENSES_BEGIN) {
+  if (action.type === GET_EXPENSES_BEGIN) {
     return {
-      ...state, 
-      isLoading: true
-    }
+      ...state,
+      isLoading: true,
+    };
   }
-  if(action.type === GET_EXPENSES_SUCCESS) {
+  if (action.type === GET_EXPENSES_SUCCESS) {
     return {
-      ...state, 
+      ...state,
       isLoading: false,
       expenses: action.payload.allExpenses,
       totalExpenses: action.payload.totalExpenses,
-      numOfPages: action.payload.numOfPages
-    }
+      numOfPages: action.payload.numOfPages,
+    };
   }
-  if(action.type === GET_EXPENSES_ERROR) {
+  if (action.type === GET_EXPENSES_ERROR) {
     return {
-      ...state, 
+      ...state,
       isLoading: false,
-      
-    }
+    };
+  }
+
+  if (action.type === SET_EDIT_EXPENSE) {
+    const expense = state.expenses.find(
+      (item) => item._id === action.payload.id
+    );
+    const { description, amount, receiver, payment, status } = expense;
+    return {
+      ...state,
+      description,
+      amount,
+      receiver,
+      payment,
+      status,
+    };
   }
 
   throw new Error(`no such action: ${action.type}`);

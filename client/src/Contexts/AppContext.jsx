@@ -23,6 +23,8 @@ import {
   GET_EXPENSES_BEGIN,
   GET_EXPENSES_SUCCESS,
   GET_EXPENSES_ERROR,
+  SET_EDIT_EXPENSE
+
 } from "./Action";
 import axios from "axios";
 
@@ -50,8 +52,8 @@ const initialState = {
   expenses: [],
   totalExpenses: "",
   numOfPages: 1,
-  method: "",
-  editId: "",
+  setExpenseId: "",
+  isEditing: false,
 };
 
 const AppContext = React.createContext();
@@ -246,6 +248,13 @@ const AppProvider = ({ children }) => {
       console.log(error.response);
     }
   };
+  const setEditId = (id) => {
+    dispatch({type: SET_EDIT_EXPENSE, payload: {id: id}})
+  }
+
+  const setEditExpense = () => {
+
+  }
 
   return (
     <AppContext.Provider
@@ -262,6 +271,8 @@ const AppProvider = ({ children }) => {
         addExpense,
         clearInputs,
         getExpenses,
+        setEditId,
+        setEditExpense
       }}
     >
       {children}

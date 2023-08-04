@@ -16,13 +16,19 @@ const AddExpense = () => {
     paymentMethod,
     statusOptions,
     payment, 
-    status
+    status,
+    isEditing
   } = useAppContext();
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if (!receiver || !amount || !description) {
       displayAlert();
+      return;
+    }
+
+    if(isEditing) {
+      
       return;
     }
 
@@ -39,7 +45,7 @@ const AddExpense = () => {
   return (
     <Wrapper>
       <form className="form">
-        <h3>Add expense</h3>
+        <h3>{isEditing? 'Edit expense': "Add expense"}</h3>
         {showAlert && <Alert />}
         <div className="form-center">
           <FormRow
