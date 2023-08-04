@@ -43,14 +43,15 @@ const initialState = {
   showToggle: false,
   showSideBar: true,
   paymentMethod: ["Cash", "Mobile Money", "Online Payment"],
-  status: ["Paid", "Pending"],
+  statusOptions: ["Paid", "Pending"],
   description: "",
   amount: 0,
   receiver: "",
   expenses: [],
   totalExpenses: "",
   numOfPages: 1,
-  method: ''
+  method: "",
+  editId: "",
 };
 
 const AppContext = React.createContext();
@@ -191,6 +192,7 @@ const AppProvider = ({ children }) => {
   };
 
   const handleChange = ({ name, value }) => {
+    console.log(name, value);
     dispatch({
       type: HANDLE_CHANGE,
       payload: {
@@ -201,15 +203,15 @@ const AppProvider = ({ children }) => {
   };
 
   const addExpense = async () => {
-    const description = state.description;
-    const amount = state.amount;
-    const receiver = state.receiver;
     dispatch({ type: ADD_EXPENSE_BEGIN });
     try {
+      const { description, amount, receiver, payment, status } = state;
       const expense = await authFetch.post("/expense/add-expense", {
         description,
         amount,
         receiver,
+        payment,
+        status,
       });
 
       dispatch({ type: ADD_EXPENSE_SUCCESS });

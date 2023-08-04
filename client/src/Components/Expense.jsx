@@ -13,6 +13,7 @@ const Expense = ({
   amount,
   receiver,
   payment,
+  status,
 }) => {
   let date = moment(createdAt);
   date = date.format("Do MM, YYYY");
@@ -45,7 +46,11 @@ const Expense = ({
             icon={<MdPayment className="w-[2rem] h-[2rem]" />}
             text={payment}
           />
-          <div className={`status ${"interview"}`}>Paid</div>
+          <div
+            className={`status ${status === "Paid" ? "interview" : "pending"}`}
+          >
+            {status}
+          </div>
         </div>
         <footer>
           <div className="actions">

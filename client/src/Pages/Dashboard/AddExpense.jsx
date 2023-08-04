@@ -12,11 +12,12 @@ const AddExpense = () => {
     amount,
     description,
     addExpense,
-    clearInputs
+    clearInputs,
+    paymentMethod,
+    statusOptions,
+    payment, 
+    status
   } = useAppContext();
-
-  const method = ["Cash", "Mobile Money", "Online Payment"];
-  const status = ["Paid", "Pending"];
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -59,8 +60,20 @@ const AddExpense = () => {
             handleChange={handleExpenseInput}
             value={receiver}
           />
-          <FormRowSelect labelText={"Payment Method:"} list={method} />
-          <FormRowSelect labelText={"Status:"} list={status} />
+          <FormRowSelect
+            labelText={"Payment Method:"}
+            list={paymentMethod}
+            handleChange={handleExpenseInput}
+            name={"payment"}
+            value={payment}
+          />
+          <FormRowSelect
+            labelText={"Status:"}
+            list={statusOptions}
+            handleChange={handleExpenseInput}
+            name={"status"}
+            value={status}
+          />
           {/* Btn Container */}
           <div className="btn-container">
             <button
