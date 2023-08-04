@@ -16,7 +16,7 @@ const Expense = ({
   payment,
   status,
 }) => {
-  const { setEditId } = useAppContext();
+  const { setEditId, deleteExpense } = useAppContext();
 
   let date = moment(createdAt);
   date = date.format("Do MM, YYYY");
@@ -66,7 +66,13 @@ const Expense = ({
             >
               Edit
             </Link>
-            <button type="button" className="btn delete-btn">
+            <button
+              type="button"
+              className="btn delete-btn"
+              onClick={() => {
+                deleteExpense(_id);
+              }}
+            >
               Delete
             </button>
           </div>

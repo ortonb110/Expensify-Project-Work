@@ -25,6 +25,7 @@ import {
   EDIT_EXPENSE_SUCCESS,
   EDIT_EXPENSE_ERROR,
   SET_EDIT_EXPENSE,
+  DELETE_EXPENSE
 } from "./Action";
 
 const reducer = (state, action) => {
@@ -249,6 +250,13 @@ const reducer = (state, action) => {
       alertText: "Failed to update expense",
       alertType: "danger",
     };
+  }
+
+  if(action.type === DELETE_EXPENSE) {
+    return {
+      ...state,
+      isLoading: true
+    }
   }
 
   throw new Error(`no such action: ${action.type}`);

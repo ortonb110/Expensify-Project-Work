@@ -37,7 +37,7 @@ const updateExpense = async (req, res) => {
     throw new BadRequestError("No expense found!");
   }
 
-  checkPermissions(req.user.userID,expense.createdBy);
+  checkPermissions(req.user.userID, expense.createdBy);
 
   const update = await Expenses.findOneAndUpdate({ _id: expenseId }, req.body, {
     new: true,
@@ -45,6 +45,16 @@ const updateExpense = async (req, res) => {
   });
   res.status(StatusCodes.OK).json(update);
 };
-const deleteExpense = async (req, res) => {};
+const deleteExpense = async (req, res) => {
+  const { id: expenseId } = req.params;
+  const expense = await Expenses.findOne({ _id: expenseId });
+  if (!expense) {
+    throw new BadRequestError("Expense does not exist");
+  }
+  checkPermissions(req.user.userID, expense.createdBy);
+
+  await Expenses.findByIdAndDelete({ _id: expenseId });
+  res.status(StatusCodes.OK).json({ msg: "Done" });
+};
 
 export { addExpense, getAllExpense, updateExpense, deleteExpense };

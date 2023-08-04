@@ -27,6 +27,7 @@ import {
   EDIT_EXPENSE_BEGIN,
   EDIT_EXPENSE_SUCCESS,
   EDIT_EXPENSE_ERROR,
+  DELETE_EXPENSE,
 } from "./Action";
 import axios from "axios";
 
@@ -265,14 +266,24 @@ const AppProvider = ({ children }) => {
         status,
         receiver,
       });
-      dispatch({type: CLEAR_INPUTS});
+      dispatch({ type: CLEAR_INPUTS });
       dispatch({ type: EDIT_EXPENSE_SUCCESS });
     } catch (error) {
-      dispatch({type: EDIT_EXPENSE_ERROR})
+      dispatch({ type: EDIT_EXPENSE_ERROR });
       console.log(error);
     }
 
     clearAlert();
+  };
+
+  const deleteExpense = async (id) => {
+    dispatch({ type: DELETE_EXPENSE });
+    try {
+      await authFetch.delete(`/expense/${id}`);
+      getExpenses();
+    } catch (error) {
+      console.log(error.response.data);
+    }
   };
 
   return (
@@ -292,6 +303,7 @@ const AppProvider = ({ children }) => {
         getExpenses,
         setEditId,
         editExpense,
+        deleteExpense,
       }}
     >
       {children}
