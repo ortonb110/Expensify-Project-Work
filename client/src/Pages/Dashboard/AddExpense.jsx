@@ -15,9 +15,10 @@ const AddExpense = () => {
     clearInputs,
     paymentMethod,
     statusOptions,
-    payment, 
+    payment,
     status,
-    isEditing
+    isEditing,
+    editExpense,
   } = useAppContext();
 
   const onSubmitHandler = (e) => {
@@ -27,8 +28,8 @@ const AddExpense = () => {
       return;
     }
 
-    if(isEditing) {
-      
+    if (isEditing) {
+      editExpense();
       return;
     }
 
@@ -45,7 +46,7 @@ const AddExpense = () => {
   return (
     <Wrapper>
       <form className="form">
-        <h3>{isEditing? 'Edit expense': "Add expense"}</h3>
+        <h3>{isEditing ? "Edit expense" : "Add expense"}</h3>
         {showAlert && <Alert />}
         <div className="form-center">
           <FormRow
@@ -88,7 +89,7 @@ const AddExpense = () => {
               onClick={onSubmitHandler}
               disabled={isLoading}
             >
-              {isLoading ? "Please wait..." : "Add"}
+              {isLoading ? "Please wait..." : `${isEditing ? "Update" : "Add"}`}
             </button>
             <button
               type="button"

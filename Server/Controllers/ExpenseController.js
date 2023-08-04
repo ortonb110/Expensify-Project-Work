@@ -1,10 +1,11 @@
 import Expenses from "../Model/Expenses.js";
 import BadRequestError from "../Errors/BadRequest.js";
 import { StatusCodes } from "http-status-codes";
+import checkPermissions from "../utils/CheckPermissions.js";
 
 const addExpense = async (req, res) => {
   const { description, amount, receiver } = req.body;
-  if (!description || !amount || !receiver ) {
+  if (!description || !amount || !receiver) {
     throw new BadRequestError("Please provide all values!");
   }
 
@@ -23,4 +24,24 @@ const getAllExpense = async (req, res) => {
     .json({ allExpenses, totalExpenses: allExpenses.length, numOfPages: 1 });
 };
 
-export { addExpense, getAllExpense };
+const updateExpense = async (req, res) => {
+  const { id: expenseId } = req.params;
+  const { amount, description, receiver } = req.body;
+  if (!amount || !description || !receiver) {
+    throw new BadRequestError("Please provide all values!");
+  }
+
+  const expense = await Expenses.findOne({ _id: expenseId });
+
+  if (!expense) {
+    throw new BadRequestError("No expense found!");
+  }
+
+  checkPermissions(req.user.userID === expense.createdBy);
+
+  const update = await Expenses.findOneAndUpdate({_id: expenseId}, req.body)
+  res.status(StatusCodes.OK).json({msg: "Success"});
+};
+const deleteExpense = async (req, res) => {};
+
+export { addExpense, getAllExpense, updateExpense, deleteExpense };

@@ -24,7 +24,7 @@ import {
   EDIT_EXPENSE_BEGIN,
   EDIT_EXPENSE_SUCCESS,
   EDIT_EXPENSE_ERROR,
-  SET_EDIT_EXPENSE
+  SET_EDIT_EXPENSE,
 } from "./Action";
 
 const reducer = (state, action) => {
@@ -180,6 +180,7 @@ const reducer = (state, action) => {
       description: "",
       receiver: "",
       amount: "",
+      isEditing: false,
       showAlert: true,
       alertText: "Cleared",
       alertType: "danger",
@@ -212,14 +213,41 @@ const reducer = (state, action) => {
     const expense = state.expenses.find(
       (item) => item._id === action.payload.id
     );
-    const { description, amount, receiver, payment, status } = expense;
+    const { description, amount, receiver, payment, status, _id } = expense;
     return {
       ...state,
+      isEditing: true,
       description,
       amount,
       receiver,
       payment,
       status,
+      setEditId: _id,
+    };
+  }
+
+  if (action.type === EDIT_EXPENSE_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+  if (action.type === EDIT_EXPENSE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertText: "Expense Updated!",
+      alertType: "success",
+    };
+  }
+  if (action.type === EDIT_EXPENSE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertText: "Failed to update expense",
+      alertType: "danger",
     };
   }
 

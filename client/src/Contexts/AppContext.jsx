@@ -23,8 +23,9 @@ import {
   GET_EXPENSES_BEGIN,
   GET_EXPENSES_SUCCESS,
   GET_EXPENSES_ERROR,
-  SET_EDIT_EXPENSE
-
+  SET_EDIT_EXPENSE,
+  EDIT_EXPENSE_BEGIN,
+  EDIT_EXPENSE_SUCCESS,
 } from "./Action";
 import axios from "axios";
 
@@ -54,6 +55,7 @@ const initialState = {
   numOfPages: 1,
   setExpenseId: "",
   isEditing: false,
+  editId: "",
 };
 
 const AppContext = React.createContext();
@@ -194,7 +196,6 @@ const AppProvider = ({ children }) => {
   };
 
   const handleChange = ({ name, value }) => {
-    console.log(name, value);
     dispatch({
       type: HANDLE_CHANGE,
       payload: {
@@ -249,12 +250,28 @@ const AppProvider = ({ children }) => {
     }
   };
   const setEditId = (id) => {
-    dispatch({type: SET_EDIT_EXPENSE, payload: {id: id}})
-  }
+    dispatch({ type: SET_EDIT_EXPENSE, payload: { id: id } });
+  };
 
-  const setEditExpense = () => {
+  const editExpense = async () => {
+    const { description, payment, amount, status, receiver } = state;
+    dispatch({ type: EDIT_EXPENSE_BEGIN });
+    console.log(state.editId);
+    await authFetch.patch(`/expense/64c1b37680c5d999b7a75eb4`, {
+      description,
+      amount,
+      payment,
+      status,
+      receiver,
+    });
+    dispatch({ type: EDIT_EXPENSE_SUCCESS });
+    try {
+    } catch (error) {
+      console.log(error.response);
+    }
 
-  }
+    clearAlert();
+  };
 
   return (
     <AppContext.Provider
@@ -272,7 +289,7 @@ const AppProvider = ({ children }) => {
         clearInputs,
         getExpenses,
         setEditId,
-        setEditExpense
+        editExpense,
       }}
     >
       {children}
