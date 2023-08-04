@@ -222,7 +222,7 @@ const reducer = (state, action) => {
       receiver,
       payment,
       status,
-      setEditId: _id,
+      editId: _id,
     };
   }
 

@@ -26,6 +26,7 @@ import {
   SET_EDIT_EXPENSE,
   EDIT_EXPENSE_BEGIN,
   EDIT_EXPENSE_SUCCESS,
+  EDIT_EXPENSE_ERROR,
 } from "./Action";
 import axios from "axios";
 
@@ -254,20 +255,21 @@ const AppProvider = ({ children }) => {
   };
 
   const editExpense = async () => {
-    const { description, payment, amount, status, receiver } = state;
     dispatch({ type: EDIT_EXPENSE_BEGIN });
-    console.log(state.editId);
-    await authFetch.patch(`/expense/64c1b37680c5d999b7a75eb4`, {
-      description,
-      amount,
-      payment,
-      status,
-      receiver,
-    });
-    dispatch({ type: EDIT_EXPENSE_SUCCESS });
     try {
+      const { description, payment, amount, status, receiver } = state;
+      await authFetch.patch(`/expense/${state.editId}`, {
+        description,
+        amount,
+        payment,
+        status,
+        receiver,
+      });
+      dispatch({type: CLEAR_INPUTS});
+      dispatch({ type: EDIT_EXPENSE_SUCCESS });
     } catch (error) {
-      console.log(error.response);
+      dispatch({type: EDIT_EXPENSE_ERROR})
+      console.log(error);
     }
 
     clearAlert();
