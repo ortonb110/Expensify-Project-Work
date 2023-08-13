@@ -25,7 +25,9 @@ import {
   EDIT_EXPENSE_SUCCESS,
   EDIT_EXPENSE_ERROR,
   SET_EDIT_EXPENSE,
-  DELETE_EXPENSE
+  DELETE_EXPENSE,
+  SHOW_STATS_SUCCESS,
+  SHOW_STATS_BEGIN,
 } from "./Action";
 
 const reducer = (state, action) => {
@@ -252,11 +254,26 @@ const reducer = (state, action) => {
     };
   }
 
-  if(action.type === DELETE_EXPENSE) {
+  if (action.type === DELETE_EXPENSE) {
     return {
       ...state,
-      isLoading: true
-    }
+      isLoading: true,
+    };
+  }
+  if (action.type === SHOW_STATS_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+      showAlert: false,
+    };
+  }
+  if (action.type === SHOW_STATS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      stats: action.payload.stats,
+      monthlyExpenses: action.payload.monthlyExpenses,
+    };
   }
 
   throw new Error(`no such action: ${action.type}`);

@@ -2,6 +2,7 @@ import Expenses from "../Model/Expenses.js";
 import BadRequestError from "../Errors/BadRequest.js";
 import { StatusCodes } from "http-status-codes";
 import checkPermissions from "../utils/CheckPermissions.js";
+import mongoose, { mongo } from "mongoose";
 
 const addExpense = async (req, res) => {
   const { description, amount, receiver } = req.body;
@@ -58,7 +59,30 @@ const deleteExpense = async (req, res) => {
 };
 
 const stats = async (req, res) => {
-  
-}
+  let stats = await Expenses.aggregate([
+    {
+      $match: { createdBy: new mongoose.Types.ObjectId(req.user.userID) },
+    },
+    {
+      $group: { _id: "$payment", count: { $sum: 1 } },
+    },
+  ]);
+
+  stats = stats.reduce((acc, curr) => {
+    const { _id: title, count } = curr;
+    acc[title] = count;
+    return acc;
+  }, {});
+
+  //This section of code is to make sure our code doesn't break on the frontend
+  const defaultStats = {
+    cash: stats.Cash || 0,
+    "mobile money": stats["Mobile Money"] || 0,
+    "online payment": stats["Online Payment"] || 0,
+  };
+
+  let monthlyExpenses = [];
+  res.status(StatusCodes.OK).json({ defaultStats, monthlyExpenses });
+};
 
 export { addExpense, getAllExpense, updateExpense, deleteExpense, stats };
