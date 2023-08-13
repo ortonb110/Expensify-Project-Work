@@ -301,6 +301,7 @@ const AppProvider = ({ children }) => {
     } catch (error) {
       
     }
+    clearAlert();
   }
 
   return (

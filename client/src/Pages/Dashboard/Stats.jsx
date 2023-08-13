@@ -4,7 +4,7 @@ import Loading from "../../Components/Loading";
 import { StatsContainer, ChartsContainer } from "../../Components/index";
 
 const Stats = () => {
-  const { isLoading, stats, showStats, monthlyExpenses } = useAppContext();
+  const { isLoading, showStats, monthlyExpenses } = useAppContext();
 
   useEffect(() => {
     showStats();

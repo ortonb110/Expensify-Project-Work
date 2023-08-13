@@ -3,6 +3,7 @@ import BadRequestError from "../Errors/BadRequest.js";
 import { StatusCodes } from "http-status-codes";
 import checkPermissions from "../utils/CheckPermissions.js";
 import mongoose, { mongo } from "mongoose";
+import moment from 'moment'
 
 const addExpense = async (req, res) => {
   const { description, amount, receiver } = req.body;
@@ -81,7 +82,30 @@ const stats = async (req, res) => {
     "online payment": stats["Online Payment"] || 0,
   };
 
-  let monthlyExpenses = [];
+  let monthlyExpenses = await Expenses.aggregate([
+    {
+      $match: { createdBy: new mongoose.Types.ObjectId(req.user.userID) },
+    },
+    {
+      $group: {
+        _id: { year: { $year: "$createdAt" }, month: { $month: "$createdAt" } },
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $sort: { "_id.year": -1, "_id.month": -1 },
+    },
+    {
+      $limit: 6,
+    },
+  ]);
+
+  monthlyExpenses = monthlyExpenses.map((item)=> {
+    const {_id:{year, month}, count} = item;
+    let date = moment().month(month -1).year(year).format('MMM Y');
+    return {date, count}
+  }).reverse();
+
   res.status(StatusCodes.OK).json({ defaultStats, monthlyExpenses });
 };
 
