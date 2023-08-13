@@ -57,4 +57,8 @@ const deleteExpense = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Done" });
 };
 
-export { addExpense, getAllExpense, updateExpense, deleteExpense };
+const stats = async (req, res) => {
+  
+}
+
+export { addExpense, getAllExpense, updateExpense, deleteExpense, stats };
