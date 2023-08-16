@@ -5,11 +5,11 @@ import Loading from '../Components/Loading'
 import {Expense} from '../Components/index'
 
 const ExpenseContainer = () => {
-    const {isLoading, getExpenses, expenses, numOfPages, totalExpenses, paymentMethod} = useAppContext();
+    const {isLoading, getExpenses, expenses, numOfPages, totalExpenses, paymentMethod, sort, searchDescription, paymentType, status} = useAppContext();
 
     useEffect(()=> {
         getExpenses();
-    }, [])
+    }, [paymentMethod, sort, searchDescription, paymentType, status])
 
     if(isLoading) {
         return (

@@ -19,7 +19,7 @@ const addExpense = async (req, res) => {
 };
 
 const getAllExpense = async (req, res) => {
-  const { description, payment, status, sort } = req.query;
+  const { searchDescription, paymentType, status, sort } = req.query;
   let queryObject = {
     createdBy: req.user.userID,
   };
@@ -28,12 +28,12 @@ const getAllExpense = async (req, res) => {
     queryObject.status = status;
   }
 
-  if (payment && payment !== "all") {
-    queryObject.payment = payment;
+  if (paymentType && paymentType !== "all") {
+    queryObject.payment = paymentType;
   }
 
-  if (description) {
-    queryObject.description = { $regex: description, $options: "i" };
+  if (searchDescription) {
+    queryObject.description = { $regex: searchDescription, $options: "i" };
   }
 
   let result = Expenses.find(queryObject);

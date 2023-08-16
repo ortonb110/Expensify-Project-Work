@@ -28,6 +28,7 @@ import {
   DELETE_EXPENSE,
   SHOW_STATS_SUCCESS,
   SHOW_STATS_BEGIN,
+  CLEAR_FILTERS,
 } from "./Action";
 
 const reducer = (state, action) => {
@@ -273,6 +274,15 @@ const reducer = (state, action) => {
       isLoading: false,
       stats: action.payload.stats,
       monthlyExpenses: action.payload.monthlyExpenses,
+    };
+  }
+  if (action.type === CLEAR_FILTERS) {
+    return {
+      ...state,
+      searchDescription: "",
+      paymentType: "",
+      status: "all",
+      sort: "latest",
     };
   }
 

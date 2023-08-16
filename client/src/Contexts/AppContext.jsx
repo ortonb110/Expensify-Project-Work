@@ -29,7 +29,8 @@ import {
   EDIT_EXPENSE_ERROR,
   DELETE_EXPENSE,
   SHOW_STATS_SUCCESS,
-  SHOW_STATS_BEGIN
+  SHOW_STATS_BEGIN,
+  CLEAR_FILTERS
 } from "./Action";
 import axios from "axios";
 
@@ -61,7 +62,13 @@ const initialState = {
   isEditing: false,
   editId: "",
   stats: {},
-  monthlyExpenses: []
+  monthlyExpenses: [],
+  searchDescription: '',
+  paymentType: 'all',
+  status: 'all', 
+  sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
+  sort: 'latest'
+
 };
 
 const AppContext = React.createContext();
@@ -239,9 +246,16 @@ const AppProvider = ({ children }) => {
   };
 
   const getExpenses = async () => {
+    const {searchDescription, sort, paymentType, status} = state
+
+    let url = `/expense/all-expenses?paymentType=${paymentType}&status=${status}&sort=${sort}`
+    if(searchDescription) {
+      url =url + `&searchDescription=${searchDescription}`;
+    }
+
     dispatch({ type: GET_EXPENSES_BEGIN });
     try {
-      const { data } = await authFetch.get("/expense/all-expenses");
+      const { data } = await authFetch.get(url);
       const { allExpenses, totalExpenses, numOfPages } = data;
       dispatch({
         type: GET_EXPENSES_SUCCESS,
@@ -304,6 +318,10 @@ const AppProvider = ({ children }) => {
     clearAlert();
   }
 
+  const clearFilters = () => {
+    dispatch({type: CLEAR_FILTERS});
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -322,7 +340,8 @@ const AppProvider = ({ children }) => {
         setEditId,
         editExpense,
         deleteExpense,
-        showStats
+        showStats,
+        clearFilters
       }}
     >
       {children}
