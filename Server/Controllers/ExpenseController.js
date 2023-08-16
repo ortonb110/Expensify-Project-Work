@@ -3,7 +3,7 @@ import BadRequestError from "../Errors/BadRequest.js";
 import { StatusCodes } from "http-status-codes";
 import checkPermissions from "../utils/CheckPermissions.js";
 import mongoose, { mongo } from "mongoose";
-import moment from 'moment'
+import moment from "moment";
 
 const addExpense = async (req, res) => {
   const { description, amount, receiver } = req.body;
@@ -19,7 +19,39 @@ const addExpense = async (req, res) => {
 };
 
 const getAllExpense = async (req, res) => {
-  const allExpenses = await Expenses.find({ createdBy: req.user.userID });
+  const { description, payment, status, sort } = req.query;
+  let queryObject = {
+    createdBy: req.user.userID,
+  };
+
+  if (status && status !== "all") {
+    queryObject.status = status;
+  }
+
+  if (payment && payment !== "all") {
+    queryObject.payment = payment;
+  }
+
+  if (description) {
+    queryObject.description = { $regex: description, $options: "i" };
+  }
+
+  let result = Expenses.find(queryObject);
+
+  if (sort && sort === "latest") {
+    result = result.sort("-createdAt");
+  }
+  if (sort && sort === "oldest") {
+    result = result.sort("createdAt");
+  }
+  if (sort && sort === "a-z") {
+    result = result.sort("receiver");
+  }
+  if (sort && sort === "z-a") {
+    result = result.sort("-receiver");
+  }
+
+  const allExpenses = await result;
 
   res
     .status(StatusCodes.OK)
@@ -100,11 +132,19 @@ const stats = async (req, res) => {
     },
   ]);
 
-  monthlyExpenses = monthlyExpenses.map((item)=> {
-    const {_id:{year, month}, count} = item;
-    let date = moment().month(month -1).year(year).format('MMM Y');
-    return {date, count}
-  }).reverse();
+  monthlyExpenses = monthlyExpenses
+    .map((item) => {
+      const {
+        _id: { year, month },
+        count,
+      } = item;
+      let date = moment()
+        .month(month - 1)
+        .year(year)
+        .format("MMM Y");
+      return { date, count };
+    })
+    .reverse();
 
   res.status(StatusCodes.OK).json({ defaultStats, monthlyExpenses });
 };
