@@ -19,7 +19,7 @@ const addExpense = async (req, res) => {
 };
 
 const getAllExpense = async (req, res) => {
-  const { searchDescription, paymentType, status, sort } = req.query;
+  const { searchDescription, paymentType, status, sort, page } = req.query;
   let queryObject = {
     createdBy: req.user.userID,
   };
@@ -51,11 +51,19 @@ const getAllExpense = async (req, res) => {
     result = result.sort("-receiver");
   }
 
+  const pages = Number(page) || 1;
+  const limit = Number(rq.query.limit) || 10;
+  const skip = (page - 1) * limit;
+  result = result.skip(skip).limit(limit)
+
   const allExpenses = await result;
+
+
+  const numOfPages = Expenses.countDocuments(queryObject);
 
   res
     .status(StatusCodes.OK)
-    .json({ allExpenses, totalExpenses: allExpenses.length, numOfPages: 1 });
+    .json({ allExpenses, totalExpenses: allExpenses.length, numOfPages });
 };
 
 const updateExpense = async (req, res) => {
