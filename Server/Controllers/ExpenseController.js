@@ -52,14 +52,13 @@ const getAllExpense = async (req, res) => {
   }
 
   const pages = Number(page) || 1;
-  const limit = Number(rq.query.limit) || 10;
+  const limit = Number(req.query.limit) || 10;
   const skip = (page - 1) * limit;
-  result = result.skip(skip).limit(limit)
+  result = result.skip(skip).limit(limit);
 
   const allExpenses = await result;
 
-
-  const numOfPages = Expenses.countDocuments(queryObject);
+  const numOfPages = await Expenses.countDocuments(queryObject);
 
   res
     .status(StatusCodes.OK)
