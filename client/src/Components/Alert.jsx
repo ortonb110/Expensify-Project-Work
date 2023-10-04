@@ -8,6 +8,7 @@ const Alert = () => {
     }
   return (
     <div className={`w-full alert ${colorVariant[alertType]} mt-[1rem]`}>{alertText}</div>
+  
   )
 }
 
