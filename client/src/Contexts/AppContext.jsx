@@ -65,10 +65,11 @@ const initialState = {
   monthlyExpenses: [],
   searchDescription: '',
   paymentType: 'all',
-  status: 'all', 
+  status: 'Paid', 
+  payment: 'Cash',
   sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
-  sort: 'latest'
-
+  sort: 'latest',
+  searchStatus: 'all'
 };
 
 const AppContext = React.createContext();

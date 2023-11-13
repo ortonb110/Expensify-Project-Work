@@ -9,7 +9,7 @@ const SearchContainer = () => {
     paymentType,
     sortOptions,
     sort,
-    status,
+    searchStatus,
     clearFilters,
     handleChange,
     paymentMethod,
@@ -47,8 +47,8 @@ const SearchContainer = () => {
           />
           <FormRowSelect
             labelText={"status"}
-            name={"status"}
-            value={status}
+            name={"searchStatus"}
+            value={searchStatus}
             list={["all", ...statusOptions]}
             handleChange={handleInputChange}
           />
